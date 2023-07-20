@@ -1,0 +1,8 @@
+.DS_Store
+.vscode/
+.vs/
+build/
+bin/
+*.yaml
+*.json
+*.txt
