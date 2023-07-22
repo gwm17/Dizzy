@@ -19,6 +19,10 @@ target_sources(Dizzy PRIVATE
     Core/DZCore.h
     Core/Logger.cpp
     main.cpp
+    Core/Layer.h
+    Core/Layer.cpp
+    Core/LayerStack.h
+    Core/LayerStack.cpp
 )
 
 #ImPlot sources

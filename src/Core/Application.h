@@ -1,5 +1,8 @@
 #pragma once
 
+#include "DZCore.h"
+#include "LayerStack.h"
+
 namespace Dizzy {
 
 	//Arguments for initializing the application
@@ -29,6 +32,8 @@ namespace Dizzy {
 	private:
 		ApplicationArgs m_args;
 		bool m_isRunning;
+
+		LayerStack m_layerStack;
 
 		static Application* s_appInstance;
 	};
