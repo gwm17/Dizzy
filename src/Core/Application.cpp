@@ -21,20 +21,35 @@ namespace Dizzy {
 	{
 	}
 
-	void Application::Close()
+	void Application::OnEvent(Event& e)
 	{
+		EventDispatcher dispatch(e);
+		dispatch.Dispatch<WindowClosedEvent>(BIND_EVENT_FUNCTION(Application::OnWindowClosedEvent));
+		for (auto iter = m_layerStack.end(); iter != m_layerStack.begin(); )
+		{
+			(*(--iter))->OnEvent(e);
+			if (e.m_isHandled)
+				break;
+		}
 	}
 
-	void Application::OnEvent()
+	bool Application::OnWindowClosedEvent(WindowClosedEvent& e)
 	{
+		DZ_INFO("Dizzy recieved a WindowClosedEvent!");
+		Stop();
+		return true;
 	}
 
-	void Application::PushLayer()
+	void Application::PushLayer(Layer* layer)
 	{
+		m_layerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
-	void Application::PushOverlay()
+	void Application::PushOverlay(Layer* layer)
 	{
+		m_layerStack.PushOverlay(layer);
+		layer->OnAttach();
 	}
 
 	void Application::Run()
@@ -43,6 +58,10 @@ namespace Dizzy {
 		{
 			for (Layer* layer : m_layerStack)
 				DZ_INFO("Found Layer: {}", layer->GetName());
+
+			WindowClosedEvent e;
+
+			OnEvent(e);
 		}
 	}
 }

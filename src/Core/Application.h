@@ -2,6 +2,8 @@
 
 #include "DZCore.h"
 #include "LayerStack.h"
+#include "Events/Event.h"
+#include "Events/AppEvent.h"
 
 namespace Dizzy {
 
@@ -19,17 +21,19 @@ namespace Dizzy {
 		~Application();
 
 		void Run();
-		void Close();
+		void Stop() { m_isRunning = false; }
 
-		void OnEvent();
-		void PushLayer();
-		void PushOverlay();
+		void OnEvent(Event& e);
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* layer);
 
 		const ApplicationArgs& GetArgs() { return m_args; }
 
 		static Application* GetInstance() { return s_appInstance; }
 
 	private:
+		bool OnWindowClosedEvent(WindowClosedEvent& e);
+
 		ApplicationArgs m_args;
 		bool m_isRunning;
 

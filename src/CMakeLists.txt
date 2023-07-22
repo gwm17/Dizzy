@@ -1,6 +1,7 @@
 add_executable(Dizzy)
 
 target_include_directories(Dizzy PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/../vendor/spdlog/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../vendor/glad/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../vendor/glfw/include
@@ -18,11 +19,15 @@ target_sources(Dizzy PRIVATE
     Core/Logger.h
     Core/DZCore.h
     Core/Logger.cpp
-    main.cpp
     Core/Layer.h
     Core/Layer.cpp
     Core/LayerStack.h
     Core/LayerStack.cpp
+    Events/Event.h
+    Events/KeyEvent.h
+    Events/MouseEvent.h
+    Events/AppEvent.h
+    main.cpp
 )
 
 #ImPlot sources

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Events/Event.h"
+
 namespace Dizzy {
 
 	class Layer
@@ -10,7 +12,7 @@ namespace Dizzy {
 
 		virtual void OnAttach() {};
 		virtual void OnDetach() {};
-		virtual void OnEvent() {};
+		virtual void OnEvent(Event& e) {};
 		virtual void OnUpdate() {};
 
 		const std::string& GetName() { return m_name; }
