@@ -15,6 +15,10 @@ namespace Dizzy {
 		DZ_INFO("Dizzy has been created!");
 
 		m_layerStack.PushLayer(new Layer("TestLayer"));
+
+		DZ_INFO("Creating a window...");
+		m_window = Window::Create();
+		m_window->SetEventCallback(BIND_EVENT_FUNCTION(Application::OnEvent));
 	}
 
 	Application::~Application()
@@ -57,11 +61,9 @@ namespace Dizzy {
 		while (m_isRunning)
 		{
 			for (Layer* layer : m_layerStack)
-				DZ_INFO("Found Layer: {}", layer->GetName());
+				layer->OnUpdate();
 
-			WindowClosedEvent e;
-
-			OnEvent(e);
+			m_window->OnUpdate();
 		}
 	}
 }

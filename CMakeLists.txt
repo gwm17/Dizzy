@@ -16,6 +16,8 @@ endif()
 set(DZ_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 set(DZ_LIBRARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
+find_package(Vulkan REQUIRED)
+
 add_subdirectory(vendor/glad)
 set(GLFW_INSTALL Off CACHE BOOL "Generate installation target" )
 add_subdirectory(vendor/glfw)

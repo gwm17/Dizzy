@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DZCore.h"
+#include "Window.h"
 #include "LayerStack.h"
 #include "Events/Event.h"
 #include "Events/AppEvent.h"
@@ -37,6 +38,7 @@ namespace Dizzy {
 		ApplicationArgs m_args;
 		bool m_isRunning;
 
+		Window* m_window;
 		LayerStack m_layerStack;
 
 		static Application* s_appInstance;

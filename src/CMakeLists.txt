@@ -8,7 +8,7 @@ target_include_directories(Dizzy PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/../vendor/imgui/
     ${CMAKE_CURRENT_SOURCE_DIR}/../vendor/implot/
     ${CMAKE_CURRENT_SOURCE_DIR}/../vendor/glm/
-
+    ${Vulkan_INCLUDE_DIRS}
 )
 
 target_precompile_headers(Dizzy PRIVATE dzpch.h)
@@ -23,6 +23,8 @@ target_sources(Dizzy PRIVATE
     Core/Layer.cpp
     Core/LayerStack.h
     Core/LayerStack.cpp
+    Core/Window.h
+    Core/Window.cpp
     Events/Event.h
     Events/KeyEvent.h
     Events/MouseEvent.h
@@ -40,7 +42,7 @@ target_sources(Dizzy PRIVATE
 )
 
 #Packaged dependencies
-target_link_libraries(Dizzy PRIVATE imgui glfw glad)
+target_link_libraries(Dizzy PRIVATE imgui glfw glad Vulkan::Vulkan)
 
 #Link OS graphics implementations and threads
 set(THREADS_PREFER_PTHREAD_FLAG On)
