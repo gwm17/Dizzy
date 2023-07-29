@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-#ifdef INVALID
+#ifdef DZ_WINDOWS
 	#ifdef _MSC_VER
 		#pragma warning (disable: 4127)             // condition expression is constant
 		#pragma warning (disable: 4251)				// class 'xxx' needs to have dll-interface to be used by clients of struct 'xxx' // when NAV_API is set to__declspec(dllexport)
