@@ -1,11 +1,12 @@
 #include "Application.h"
+#include "Renderer/RenderCommand.h"
 
 namespace Dizzy {
 
 	Application* Application::s_appInstance = nullptr;
 
 	Application::Application(const ApplicationArgs& args):
-		m_args(args), m_isRunning(true)
+		m_args(args), m_isRunning(true), m_clearColor({0.1f, 0.1f, 0.1f, 1.0f})
 	{
 		if (s_appInstance == nullptr)
 		{
@@ -17,12 +18,17 @@ namespace Dizzy {
 		m_layerStack.PushLayer(new Layer("TestLayer"));
 
 		DZ_INFO("Creating a window...");
-		m_window = Window::Create();
+		m_window = std::unique_ptr<Window>(Window::Create());
 		m_window->SetEventCallback(BIND_EVENT_FUNCTION(Application::OnEvent));
+
+		m_imguiLayer = CreateImGuiLayer();
+		PushOverlay(m_imguiLayer);
 	}
 
 	Application::~Application()
 	{
+		for (Layer* layer : m_layerStack)
+			layer->OnDetach();
 	}
 
 	void Application::OnEvent(Event& e)
@@ -60,9 +66,19 @@ namespace Dizzy {
 	{
 		while (m_isRunning)
 		{
+			RenderCommand::SetClearColor(m_clearColor);
+			RenderCommand::Clear();
+
 			for (Layer* layer : m_layerStack)
 				layer->OnUpdate();
 
+
+			m_imguiLayer->Begin();
+
+			for (Layer* layer : m_layerStack)
+				layer->OnImGuiRender();
+
+			m_imguiLayer->End();
 			m_window->OnUpdate();
 		}
 	}

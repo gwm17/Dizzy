@@ -1,6 +1,8 @@
 #pragma once
 
-#ifdef 0
+#include <cassert>
+
+#ifdef INVALID
 	#ifdef _MSC_VER
 		#pragma warning (disable: 4127)             // condition expression is constant
 		#pragma warning (disable: 4251)				// class 'xxx' needs to have dll-interface to be used by clients of struct 'xxx' // when NAV_API is set to__declspec(dllexport)
@@ -20,3 +22,9 @@
 
 //Macro to bind a function using lambda expressions
 #define BIND_EVENT_FUNCTION(x) [this](auto&&... args) -> decltype(auto) { return this->x(std::forward<decltype(args)>(args)...); }
+
+#ifdef DZ_DEBUG
+	#define DZ_ASSERT(expr) assert(expr)
+#else
+	#define DZ_ASSERT(expr)
+#endif

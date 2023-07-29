@@ -5,6 +5,8 @@
 #include "LayerStack.h"
 #include "Events/Event.h"
 #include "Events/AppEvent.h"
+#include "ImGuiLayer.h"
+#include "glm/glm.hpp"
 
 namespace Dizzy {
 
@@ -30,7 +32,9 @@ namespace Dizzy {
 
 		const ApplicationArgs& GetArgs() { return m_args; }
 
-		static Application* GetInstance() { return s_appInstance; }
+		static Application& GetInstance() { return *s_appInstance; }
+
+		Window& GetWindow() { return *m_window; }
 
 	private:
 		bool OnWindowClosedEvent(WindowClosedEvent& e);
@@ -38,8 +42,11 @@ namespace Dizzy {
 		ApplicationArgs m_args;
 		bool m_isRunning;
 
-		Window* m_window;
+		std::unique_ptr<Window> m_window;
 		LayerStack m_layerStack;
+		ImGuiLayer* m_imguiLayer;
+
+		glm::vec4 m_clearColor;
 
 		static Application* s_appInstance;
 	};

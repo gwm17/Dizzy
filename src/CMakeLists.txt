@@ -24,11 +24,26 @@ target_sources(Dizzy PRIVATE
     Core/LayerStack.h
     Core/LayerStack.cpp
     Core/Window.h
-    Core/Window.cpp
+    Core/ImGuiLayer.h
+    Core/ImGuiBuild.cpp
     Events/Event.h
     Events/KeyEvent.h
     Events/MouseEvent.h
     Events/AppEvent.h
+    Renderer/GraphicsContext.h
+    Renderer/RendererAPI.h
+    Renderer/RendererAPI.cpp
+    Renderer/RenderCommand.h
+    Renderer/RenderCommand.cpp
+    Platform/OpenGL/OpenGLContext.h
+    Platform/OpenGL/OpenGLContext.cpp
+    Platform/OpenGL/OpenGLAPI.h
+    Platform/OpenGL/OpenGLAPI.cpp
+    Platform/OpenGL/OpenGLWindow.h
+    Platform/OpenGL/OpenGLWindow.cpp
+    Platform/OpenGL/ImGuiLayerOGL.h
+    Platform/OpenGL/ImGuiLayerOGL.cpp
+    Platform/OpenGL/ImGuiBuildOGL.h
     main.cpp
 )
 
@@ -42,7 +57,7 @@ target_sources(Dizzy PRIVATE
 )
 
 #Packaged dependencies
-target_link_libraries(Dizzy PRIVATE imgui glfw glad Vulkan::Vulkan)
+target_link_libraries(Dizzy PRIVATE imgui glfw glad)
 
 #Link OS graphics implementations and threads
 set(THREADS_PREFER_PTHREAD_FLAG On)
@@ -58,11 +73,19 @@ elseif(MSVC)
     target_compile_definitions(Dizzy PRIVATE DZ_WINDOWS)
 endif()
 
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    target_compile_definitions(Dizzy PRIVATE DZ_RELEASE)
+elseif(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_definitions(Dizzy PRIVATE DZ_DEBUG)
+endif()
+
 #Some extra defs
 target_compile_definitions(Dizzy PRIVATE 
     GLFW_INCLUDE_NONE 
+    GLFW_INCLUDE_VULKAN
     IMGUI_IMPL_OPENGL_LOADER_GLAD 
     IMGUI_DEFINE_MATH_OPERATORS
+    VULKAN_HPP_NO_EXCEPTIONS
 )
 
 set_target_properties(Dizzy PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${DZ_BINARY_DIR})

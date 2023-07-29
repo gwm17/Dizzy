@@ -15,6 +15,8 @@ namespace Dizzy {
 		virtual void OnEvent(Event& e) {};
 		virtual void OnUpdate() {};
 
+		virtual void OnImGuiRender() {};
+
 		const std::string& GetName() { return m_name; }
 
 	private:

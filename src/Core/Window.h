@@ -2,8 +2,9 @@
 
 #include "DZCore.h"
 #include "Events/Event.h"
+#include "glm/glm.hpp"
 
-class GLFWwindow;
+struct GLFWwindow;
 
 namespace Dizzy {
 
@@ -17,38 +18,24 @@ namespace Dizzy {
 
 	class Window
 	{
-	using EventFunc = std::function<void(Event&)>;
 	public:
-		Window(const WindowProperties& props);
-		~Window();
+		using EventFunc = std::function<void(Event&)>;
+		virtual ~Window() {};
 
-		void OnUpdate();
-		uint32_t GetWidth() const { return m_data.width; }
-		uint32_t GetHeight() const { return m_data.height; }
-		const std::string& GetName() const { return m_data.name; }
+		virtual void OnUpdate() = 0;
+		virtual uint32_t GetWidth() const = 0;
+		virtual uint32_t GetHeight() const = 0;
+		virtual const std::string& GetName() const = 0;
 
-		void SetEventCallback(const EventFunc& f) { m_data.eventCallback = f; }
+		virtual glm::vec2 GetFrameBufferSize() = 0;
 
-		void SetVsync(bool isVsync);
-		bool IsVsync() const { return m_data.isVsync; }
-		void* GetNativeWindow() const { return m_window; }
+		virtual void SetEventCallback(const EventFunc& f) = 0;
+
+		virtual void SetVsync(bool isVsync) = 0;
+		virtual bool IsVsync() const = 0;
+		virtual void* GetNativeWindow() = 0;
 
 		//For ease of use
-		static Window* Create(const WindowProperties& props = WindowProperties()) { return new Window(props); }
-	private:
-		void Init(const WindowProperties& props);
-		void Shutdown();
-
-		struct WindowData
-		{
-			int width;
-			int height;
-			std::string name;
-			bool isVsync;
-			EventFunc eventCallback;
-		};
-
-		WindowData m_data;
-		GLFWwindow* m_window;
+		static Window* Create(const WindowProperties& props = WindowProperties());
 	};
 }
